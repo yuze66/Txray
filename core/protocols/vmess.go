@@ -26,6 +26,7 @@ type VMess struct {
 	Alpn          string `json:"alpn"`
 	EchConfigList string `json:"echConfigList"`
 	EchForceQuery string `json:"echForceQuery"`
+	PCS           string `json:"pinnedPeerCertSha256"`
 }
 
 // GetProtocolMode 返回协议模式
@@ -67,6 +68,7 @@ func (v *VMess) GetInfo() string {
 	buf.WriteString(fmt.Sprintf("%9s: %s\n", "Alpn", v.Alpn))
 	buf.WriteString(fmt.Sprintf("%9s: %s\n", "Ech配置列表", v.EchConfigList))
 	buf.WriteString(fmt.Sprintf("%9s: %s\n", "ECH强制查询", v.EchForceQuery))
+	buf.WriteString(fmt.Sprintf("%16s: %s\n", "PinnedPeerCertSha256", v.PCS))
 	buf.WriteString(fmt.Sprintf("%7s: %s", "协议", v.GetProtocolMode()))
 	return buf.String()
 }
@@ -90,6 +92,7 @@ func (v *VMess) GetLink() string {
 		"alpn":          v.Alpn,
 		"echConfigList": v.EchConfigList,
 		"echForceQuery": v.EchForceQuery,
+		"pinnedPeerCertSha256": v.PCS,
 	}
 	jsonData, _ := json.Marshal(data)
 	return "vmess://" + base64EncodeWithEq(string(jsonData))

@@ -382,6 +382,9 @@ func trojanOutbound(trojan *protocols.Trojan) interface{} {
 		if trojan.EchForceQuery() != "" {
 			tlsSettings["echForceQuery"] = trojan.EchForceQuery()
 		}
+		if trojan.Has("pinnedPeerCertSha256") && trojan.Get("pinnedPeerCertSha256") != "" {
+			tlsSettings["pinnedPeerCertSha256"] = trojan.Get("pinnedPeerCertSha256")
+		}
 		streamSettings["tlsSettings"] = tlsSettings
 	}
 	return map[string]interface{}{
@@ -423,6 +426,9 @@ func vMessOutbound(vmess *protocols.VMess) interface{} {
 		}
 		if vmess.EchForceQuery != "" {
 			tlsSettings["echForceQuery"] = vmess.EchForceQuery
+		}
+		if vmess.PCS != "" {
+			tlsSettings["pinnedPeerCertSha256"] = vmess.PCS
 		}
 		streamSettings["tlsSettings"] = tlsSettings
 	}
@@ -592,6 +598,7 @@ func vLessOutbound(vless *protocols.VLess) interface{} {
 		alpn := vless.GetValue(field.Alpn)
 		echConfigList := vless.GetValue(field.EchConfigList)
 		echForceQuery := vless.GetValue(field.EchForceQuery)
+		pcs := vless.GetValue(field.PCS)
 		if sni != "" {
 			tlsSettings["serverName"] = sni
 		}
@@ -604,6 +611,9 @@ func vLessOutbound(vless *protocols.VLess) interface{} {
 		if echForceQuery != "" {
 			tlsSettings["echForceQuery"] = echForceQuery
 		}
+		if pcs != "" {
+			tlsSettings["pinnedPeerCertSha256"] = pcs
+		}
 		streamSettings["tlsSettings"] = tlsSettings
 	case "xtls":
 		xtlsSettings := map[string]interface{}{
@@ -613,6 +623,7 @@ func vLessOutbound(vless *protocols.VLess) interface{} {
 		alpn := vless.GetValue(field.Alpn)
 		echConfigList := vless.GetValue(field.EchConfigList)
 		echForceQuery := vless.GetValue(field.EchForceQuery)
+		pcs := vless.GetValue(field.PCS)
 		if sni != "" {
 			xtlsSettings["serverName"] = sni
 		}
@@ -624,6 +635,9 @@ func vLessOutbound(vless *protocols.VLess) interface{} {
 		}
 		if echForceQuery != "" {
 			xtlsSettings["echForceQuery"] = echForceQuery
+		}
+		if pcs != "" {
+			xtlsSettings["pinnedPeerCertSha256"] = pcs
 		}
 		streamSettings["xtlsSettings"] = xtlsSettings
 		mux = false
@@ -760,6 +774,7 @@ func vMessAEADOutbound(vmess *protocols.VMessAEAD) interface{} {
 		alpn := vmess.GetValue(field.Alpn)
 		echConfigList := vmess.GetValue(field.EchConfigList)
 		echForceQuery := vmess.GetValue(field.EchForceQuery)
+		pcs := vmess.GetValue(field.PCS)
 		if sni != "" {
 			tlsSettings["serverName"] = sni
 		}
@@ -771,6 +786,9 @@ func vMessAEADOutbound(vmess *protocols.VMessAEAD) interface{} {
 		}
 		if echForceQuery != "" {
 			tlsSettings["echForceQuery"] = echForceQuery
+		}
+		if pcs != "" {
+			tlsSettings["pinnedPeerCertSha256"] = pcs
 		}
 		streamSettings["tlsSettings"] = tlsSettings
 	case "reality":

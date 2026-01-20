@@ -109,4 +109,5 @@ var (
 	Flow           = NilStrField("flow")          // XTLS 的流控方式，可选值xtls-rprx-direct/xtls-rprx-splice
 	EchConfigList  = NilStrField("echConfigList") // ECH 配置列表，默认为 ""
 	EchForceQuery  = NilStrField("echForceQuery") // ECH强制查询，可选值 full/half/none (default)
+	PCS            = NilStrField("pinnedPeerCertSha256")    // TLS CA/leaf 证书 SHA-256 指纹,此项可能为空字符串
 )
